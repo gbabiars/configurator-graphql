@@ -48,12 +48,48 @@ function normalizeOptionGroups(groups) {
     }));
 }
 
+function normalizePackage(p) {
+  const {
+    id,
+    displayedMsrp,
+    conflict,
+    selected,
+    description,
+    includedInPackage,
+    requiresPackage,
+    smallImageUrl,
+    largeImageUrl,
+    packageOptions
+  } = p;
+  return {
+    id,
+    msrp: displayedMsrp,
+    conflict,
+    selected,
+    description,
+    includedInPackage,
+    requiresPackage,
+    smallImageUrl,
+    largeImageUrl,
+    options: packageOptions
+  }
+}
+
+function normalizePackageGroups(groups) {
+  return Object.keys(groups)
+    .map(key => ({
+      header: key,
+      items: groups[key].map(x => normalizePackage(x))
+    }));
+}
+
 function normalizeConfig(config) {
   return {
     ss: config['SERIALIZED-STATE'],
     interior: normalizeOptionGroups(config.OPTIONS.INTERIOR),
     exterior: normalizeOptionGroups(config.OPTIONS.EXTERIOR),
-    accessories: normalizeOptionGroups(config.ACCESSORIES)
+    accessories: normalizeOptionGroups(config.ACCESSORIES),
+    packages: normalizePackageGroups(config.OPTIONS.PACKAGES)
   };
 }
 

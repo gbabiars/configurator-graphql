@@ -56,6 +56,33 @@ const OptionGroup = new GraphQLObjectType({
   })
 });
 
+const PackageOption = new GraphQLObjectType({
+  name: 'PackageOption',
+  fields: () => ({
+    id: { type: GraphQLString },
+    description: { type: GraphQLString },
+    smallImageUrl: { type: GraphQLString },
+    largeImageUrl: { type: GraphQLString }
+  })
+});
+
+const Package = new GraphQLObjectType({
+  name: 'Package',
+  fields: () => withCommonFields({
+    smallImageUrl: { type: GraphQLString },
+    largeImageUrl: { type: GraphQLString },
+    options: { type: new GraphQLList(PackageOption) }
+  })
+});
+
+const PackageGroup = new GraphQLObjectType({
+  name: 'PackageGroup',
+  fields: () => ({
+    header: { type: GraphQLString },
+    items: { type: new GraphQLList(Package) }
+  })
+});
+
 const Config = new GraphQLObjectType({
   name: 'Config',
   fields: () => ({
@@ -66,7 +93,8 @@ const Config = new GraphQLObjectType({
     engines: { type: new GraphQLList(Option) },
     interior: { type: new GraphQLList(OptionGroup) },
     exterior: { type: new GraphQLList(OptionGroup) },
-    accessories: { type: new GraphQLList(OptionGroup) }
+    accessories: { type: new GraphQLList(OptionGroup) },
+    packages: { type: new GraphQLList(PackageGroup) }
   })
 });
 
