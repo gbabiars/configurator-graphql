@@ -48,6 +48,14 @@ const Option = new GraphQLObjectType({
   })
 });
 
+const OptionGroup = new GraphQLObjectType({
+  name: 'OptionGroup',
+  fields: () => ({
+    header: { type: GraphQLString },
+    items: { type: new GraphQLList(Option) }
+  })
+});
+
 const Config = new GraphQLObjectType({
   name: 'Config',
   fields: () => ({
@@ -55,8 +63,11 @@ const Config = new GraphQLObjectType({
     driveTypes: { type: new GraphQLList(DriveType) },
     bodyTypes: { type: new GraphQLList(BodyType) },
     trims: { type: new GraphQLList(Trim) },
-    engines: { type: new GraphQLList(Option) }
-  }),
+    engines: { type: new GraphQLList(Option) },
+    interior: { type: new GraphQLList(OptionGroup) },
+    exterior: { type: new GraphQLList(OptionGroup) },
+    accessories: { type: new GraphQLList(OptionGroup) }
+  })
 });
 
 module.exports = Config;

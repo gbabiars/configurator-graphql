@@ -15,25 +15,6 @@ function getConfigUrl({ brand, year, carline, model }) {
   return `http://www.${brand}.com/byo-vc/services/fullyConfigured/US/en/${brand}/${year}/${carline}/${model}`;
 }
 
-function normalizeConfig(config) {
-  return {
-    ss: config['SERIALIZED-STATE']
-  };
-}
-
-function normalizeDriveTypes(modelMatrix) {
-  return modelMatrix.driveTypes.map(
-    ({ id, lowestMSRP, conflict, selected }) => ({ id, msrp: lowestMSRP, conflict, selected })
-  );
-}
-
-function normalizeBodyTypes(modelMatrix) {
-  return modelMatrix.bodyTypes.map(
-    ({ id, lowestMSRP, conflict, selected, formattedConfig, cabSize, showConvertible }) =>
-      ({ id, msrp: lowestMSRP, conflict, selected, description: formattedConfig, cabSize, showConvertible })
-  );
-}
-
 function normalizeOption(option) {
   const {
     id,
@@ -57,6 +38,36 @@ function normalizeOption(option) {
     smallImageUrl,
     largeImageUrl
   }
+}
+
+function normalizeOptionGroups(groups) {
+  return Object.keys(groups)
+    .map(key => ({
+      header: key,
+      items: groups[key].map(x => normalizeOption(x))
+    }));
+}
+
+function normalizeConfig(config) {
+  return {
+    ss: config['SERIALIZED-STATE'],
+    interior: normalizeOptionGroups(config.OPTIONS.INTERIOR),
+    exterior: normalizeOptionGroups(config.OPTIONS.EXTERIOR),
+    accessories: normalizeOptionGroups(config.ACCESSORIES)
+  };
+}
+
+function normalizeDriveTypes(modelMatrix) {
+  return modelMatrix.driveTypes.map(
+    ({ id, lowestMSRP, conflict, selected }) => ({ id, msrp: lowestMSRP, conflict, selected })
+  );
+}
+
+function normalizeBodyTypes(modelMatrix) {
+  return modelMatrix.bodyTypes.map(
+    ({ id, lowestMSRP, conflict, selected, formattedConfig, cabSize, showConvertible }) =>
+      ({ id, msrp: lowestMSRP, conflict, selected, description: formattedConfig, cabSize, showConvertible })
+  );
 }
 
 function normalizeEngines(modelMatrix) {
