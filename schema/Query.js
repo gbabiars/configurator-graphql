@@ -30,7 +30,13 @@ const Query = new GraphQLObjectType({
         brand: { type: GraphQLString },
         year: { type: GraphQLInt },
         carline: { type: GraphQLString },
-        model: { type: GraphQLString }
+        model: { type: GraphQLString },
+        bodyTypeId: { type: GraphQLString },
+        driveType: { type: GraphQLString },
+        engine: { type: GraphQLString },
+        styleId: { type: GraphQLString },
+        axleRatio: { type: GraphQLString },
+        transmission: { type: GraphQLString }
       },
       resolve: (data, query) => fetchConfig(query)
     }

@@ -3,17 +3,9 @@
 const { get, post } = require('axios');
 const { flatten } = require('lodash');
 
-function getModelUrl({ brand, year, carline, model }) {
-  return `http://www.${brand}.com/byo-vc/api/v2/bodystyle/resources/en/US/${brand}/${carline}/${year}/${model}`;
-}
-
-function fetchModel(query) {
-  const url = getModelUrl(query);
-  return get(url).then(res => res.data);
-}
-
-function getConfigUrl({ brand, year, carline, model }) {
-  return `http://www.${brand}.com/byo-vc/services/fullyConfigured/US/en/${brand}/${year}/${carline}/${model}`;
+function fetchModel({ brand, year, carline, model }) {
+  return get(`http://www.${brand}.com/byo-vc/api/v2/bodystyle/resources/en/US/${brand}/${carline}/${year}/${model}`)
+    .then(res => res.data);
 }
 
 function normalizeOption(option) {
@@ -145,8 +137,34 @@ function normalizeFullConfig({ config, modelMatrix }) {
 }
 
 function fetchConfig(query) {
-  const url = getConfigUrl(query);
-  return get(url).then(res => normalizeFullConfig(res.data));
+  const {
+    brand,
+    year,
+    carline,
+    model,
+    ss,
+    styleId,
+    axleRatio,
+    bodyTypeId,
+    driveType,
+    engine,
+    transmission
+
+  } = query;
+  if(ss && styleId) {
+    let url = `http://www.${brand}.com/byo-vc/services/retrieveConfiguration/${brand}/US/en/us/${styleId}?bodystyle=${model}&carline=${carline}&modelyear=${year}`;
+    return post(url, { ss })
+      .then(res => normalizeFullConfig(res.data));
+  }
+  if(axleRatio && bodyTypeId && driveType && engine && transmission && styleId) {
+    let url = `http://www.${brand}.com/byo-vc/services/fullyConfigured/US/en/${brand}/${year}/${carline}/${model}?axleRatio=${axleRatio}&bodyTypeId=${bodyTypeId}&driveType=${driveType}&engine=${engine}&styleId=${styleId}&transmission=${transmission}`;
+    console.log(url);
+    return get(url)
+      .then(res => normalizeFullConfig(res.data))
+  }
+  let url = `http://www.${brand}.com/byo-vc/services/fullyConfigured/US/en/${brand}/${year}/${carline}/${model}`;
+  return get(url)
+    .then(res => normalizeFullConfig(res.data));
 }
 
 module.exports = {
