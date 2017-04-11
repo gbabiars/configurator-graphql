@@ -94,7 +94,8 @@ const Config = new GraphQLObjectType({
     interior: { type: new GraphQLList(OptionGroup) },
     exterior: { type: new GraphQLList(OptionGroup) },
     accessories: { type: new GraphQLList(OptionGroup) },
-    packages: { type: new GraphQLList(PackageGroup) }
+    packages: { type: new GraphQLList(PackageGroup) },
+    colors: { type: new GraphQLList(OptionGroup) }
   })
 });
 

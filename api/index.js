@@ -1,6 +1,7 @@
 'use strict';
 
 const { get, post } = require('axios');
+const { flatten } = require('lodash');
 
 function getModelUrl({ brand, year, carline, model }) {
   return `http://www.${brand}.com/byo-vc/api/v2/bodystyle/resources/en/US/${brand}/${carline}/${year}/${model}`;
@@ -83,13 +84,22 @@ function normalizePackageGroups(groups) {
     }));
 }
 
+function normalizeColors(colors) {
+  return Object.keys(colors).map(key =>
+    ({
+      header: key,
+      items: flatten(colors[key].map(g => g.items ? g.items : g))
+    }));
+}
+
 function normalizeConfig(config) {
   return {
     ss: config['SERIALIZED-STATE'],
     interior: normalizeOptionGroups(config.OPTIONS.INTERIOR),
     exterior: normalizeOptionGroups(config.OPTIONS.EXTERIOR),
     accessories: normalizeOptionGroups(config.ACCESSORIES),
-    packages: normalizePackageGroups(config.OPTIONS.PACKAGES)
+    packages: normalizePackageGroups(config.OPTIONS.PACKAGES),
+    colors: normalizeColors(config.OPTIONS.COLOR)
   };
 }
 
