@@ -59,7 +59,7 @@ function normalizePackage(p) {
     requiresPackage,
     smallImageUrl,
     largeImageUrl,
-    options: packageOptions
+    options: packageOptions || []
   }
 }
 
@@ -144,8 +144,8 @@ function fetchConfig(query) {
     driveType,
     engine,
     transmission
-
   } = query;
+
   if(ss && styleId) {
     let url = `http://www.${brand}.com/byo-vc/services/retrieveConfiguration/${brand}/US/en/us/${styleId}?bodystyle=${model}&carline=${carline}&modelyear=${year}`;
     return post(url, { ss })
@@ -153,7 +153,6 @@ function fetchConfig(query) {
   }
   if(axleRatio && bodyTypeId && driveType && engine && transmission && styleId) {
     let url = `http://www.${brand}.com/byo-vc/services/fullyConfigured/US/en/${brand}/${year}/${carline}/${model}?axleRatio=${axleRatio}&bodyTypeId=${bodyTypeId}&driveType=${driveType}&engine=${engine}&styleId=${styleId}&transmission=${transmission}`;
-    console.log(url);
     return get(url)
       .then(res => normalizeFullConfig(res.data))
   }
