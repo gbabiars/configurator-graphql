@@ -118,8 +118,25 @@ type Query {
   ): Config
 }
 
+input OptionSelection {
+  id: String!
+}
+
+type Mutation {
+  selectOption(
+    brand: String!, 
+    year: Int!, 
+    carline: String!, 
+    model: String!, 
+    ss: String, 
+    styleId: String, 
+    input: OptionSelection
+  ): Config
+}
+
 schema {
-  query: Query
+  query: Query,
+  mutation: Mutation
 }
 `);
 
