@@ -1,12 +1,15 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 
 const { fetchModel, fetchConfig, selectOption } = require('./api');
 const Schema = require('./schema');
 
 const app = express();
+
+app.use(cors());
 
 const root = {
   model: (query) => fetchModel(query),
