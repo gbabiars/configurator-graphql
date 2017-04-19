@@ -10,6 +10,7 @@ function fetchConfig(query) {
     carline,
     model,
     ss,
+    msrp,
     styleId,
     axleRatio,
     bodyTypeId,

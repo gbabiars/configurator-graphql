@@ -89,7 +89,8 @@ type PackageGroup {
 }
 
 type Config {
-  ss: String!
+  ss: String!,
+  msrp: String!,
   driveTypes: [DriveType],
   bodyTypes: [BodyType],
   trims: [Trim],

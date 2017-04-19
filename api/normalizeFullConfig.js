@@ -81,6 +81,7 @@ function normalizeColors(colors) {
 function normalizeConfig(config) {
   return {
     ss: decodeURIComponent(config['SERIALIZED-STATE']),
+    msrp: config.VEHICLE.MSRP.totalMSRP,
     interior: normalizeOptionGroups(config.OPTIONS.INTERIOR),
     exterior: normalizeOptionGroups(config.OPTIONS.EXTERIOR),
     accessories: normalizeOptionGroups(config.ACCESSORIES),
