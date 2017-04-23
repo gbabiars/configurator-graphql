@@ -114,12 +114,22 @@ function normalizeTrims(modelMatrix) {
   );
 }
 
+function findSelectedId(options) {
+  return (options || []).filter(x => x.selected).map(x => x.id)[0];
+}
+
 function normalizeModelMatrix(modelMatrix) {
   return {
     driveTypes: normalizeDriveTypes(modelMatrix),
     bodyTypes: normalizeBodyTypes(modelMatrix),
     trims: normalizeTrims(modelMatrix),
-    engines: normalizeEngines(modelMatrix)
+    engines: normalizeEngines(modelMatrix),
+    driveType: findSelectedId(modelMatrix.driveTypes),
+    engine: findSelectedId(modelMatrix.engine),
+    bodyType: findSelectedId(modelMatrix.bodyTypes),
+    styleId: findSelectedId(modelMatrix.styleInformation),
+    transmission: findSelectedId(modelMatrix.transmission),
+    axleRatio: findSelectedId(modelMatrix.axleRatio)
   };
 }
 

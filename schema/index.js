@@ -91,6 +91,12 @@ type PackageGroup {
 type Config {
   ss: String!,
   msrp: String!,
+  transmission: String!,
+  axleRatio: String,
+  engine: String!,
+  driveType: String!,
+  bodyType: String,
+  styleId: String!,
   driveTypes: [DriveType],
   bodyTypes: [BodyType],
   trims: [Trim],

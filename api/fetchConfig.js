@@ -10,7 +10,6 @@ function fetchConfig(query) {
     carline,
     model,
     ss,
-    msrp,
     styleId,
     axleRatio,
     bodyTypeId,
@@ -24,7 +23,7 @@ function fetchConfig(query) {
     return post(url, { ss })
       .then(res => normalizeFullConfig(res.data));
   }
-  if(axleRatio && bodyTypeId && driveType && engine && transmission && styleId) {
+  if(driveType && engine && styleId) {
     let url = `http://www.${brand}.com/byo-vc/services/fullyConfigured/US/en/${brand}/${year}/${carline}/${model}?axleRatio=${axleRatio}&bodyTypeId=${bodyTypeId}&driveType=${driveType}&engine=${engine}&styleId=${styleId}&transmission=${transmission}`;
     return get(url)
       .then(res => normalizeFullConfig(res.data))
