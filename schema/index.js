@@ -88,9 +88,19 @@ type PackageGroup {
   items: [Package]
 }
 
+type MSRP {
+  base: Int,
+  total: Int,
+  destinationPrice: Int,
+  packageDiscountTotal: Int,
+  accessoriesTotal: Int,
+  optionsTotal: Int,
+  vehicleAndOptionsTotal: Int
+}
+
 type Config {
   ss: String!,
-  msrp: String!,
+  msrp: MSRP!,
   transmission: String!,
   axleRatio: String,
   engine: String!,

@@ -78,10 +78,32 @@ function normalizeColors(colors) {
     }));
 }
 
+function normalizeMsrp(msrp) {
+  const {
+    baseMSRPValue,
+    totalMSRPValue,
+    destinationPriceValue,
+    packageDiscountTotalValue,
+    totalAccessoriesMsrpValue,
+    totalOptionsMsrpValue,
+    totalVehicleAndOptionsValue,
+  } = msrp;
+
+  return {
+    base: baseMSRPValue,
+    total: totalMSRPValue,
+    destinationPrice: destinationPriceValue,
+    packageDiscountTotal: packageDiscountTotalValue,
+    accessoriesTotal: totalAccessoriesMsrpValue,
+    optionsTotal: totalOptionsMsrpValue,
+    vehicleAndOptionsTotal: totalVehicleAndOptionsValue
+  }
+}
+
 function normalizeConfig(config) {
   return {
     ss: decodeURIComponent(config['SERIALIZED-STATE']),
-    msrp: config.VEHICLE.MSRP.totalMSRP,
+    msrp: normalizeMsrp(config.VEHICLE.MSRP),
     interior: normalizeOptionGroups(config.OPTIONS.INTERIOR),
     exterior: normalizeOptionGroups(config.OPTIONS.EXTERIOR),
     accessories: normalizeOptionGroups(config.ACCESSORIES),
