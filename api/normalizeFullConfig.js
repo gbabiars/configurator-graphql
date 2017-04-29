@@ -5,7 +5,7 @@ const { flatten } = require('lodash');
 function normalizeOption(option) {
   const {
     id,
-    displayedMsrp,
+    msrp,
     conflict,
     selected,
     description,
@@ -16,7 +16,7 @@ function normalizeOption(option) {
   } = option;
   return {
     id,
-    msrp: displayedMsrp,
+    msrp,
     conflict,
     selected,
     description,
@@ -114,14 +114,15 @@ function normalizeConfig(config) {
 
 function normalizeDriveTypes(modelMatrix) {
   return modelMatrix.driveTypes.map(
-    ({ id, lowestMSRP, conflict, selected }) => ({ id, msrp: lowestMSRP, conflict, selected })
+    ({ id, lowestMSRP, conflict, selected }) =>
+      ({ id, msrp: lowestMSRP.replace('$', '').replace(',', ''), conflict, selected })
   );
 }
 
 function normalizeBodyTypes(modelMatrix) {
   return modelMatrix.bodyTypes.map(
-    ({ id, lowestMSRP, conflict, selected, formattedConfig, cabSize, showConvertible }) =>
-      ({ id, msrp: lowestMSRP, conflict, selected, description: formattedConfig, cabSize, showConvertible })
+    ({ id, lowestMSRPValue, conflict, selected, formattedConfig, cabSize, showConvertible }) =>
+      ({ id, msrp: lowestMSRPValue, conflict, selected, description: formattedConfig, cabSize, showConvertible })
   );
 }
 
@@ -131,8 +132,8 @@ function normalizeEngines(modelMatrix) {
 
 function normalizeTrims(modelMatrix) {
   return modelMatrix.styleInformation.map(
-    ({ id, totalMSRP, conflict, selected, trimName, marketingCopy }) =>
-      ({ id, msrp: totalMSRP, conflict, selected, description: trimName, marketingCopy })
+    ({ id, totalMSRPValue, conflict, selected, trimName, marketingCopy }) =>
+      ({ id, msrp: totalMSRPValue, conflict, selected, description: trimName, marketingCopy })
   );
 }
 

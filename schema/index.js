@@ -16,7 +16,7 @@ type Model {
 interface CommonOption {
   id: String!
   description: String,
-  msrp: String,
+  msrp: Int,
   selected: Boolean,
   conflict: Boolean
 }
@@ -24,7 +24,7 @@ interface CommonOption {
 type DriveType implements CommonOption {
   id: String!
   description: String,
-  msrp: String,
+  msrp: Int,
   selected: Boolean,
   conflict: Boolean
 }
@@ -32,7 +32,7 @@ type DriveType implements CommonOption {
 type BodyType implements CommonOption {
   id: String!
   description: String,
-  msrp: String,
+  msrp: Int,
   selected: Boolean,
   conflict: Boolean,
   cabSize: String,
@@ -42,7 +42,7 @@ type BodyType implements CommonOption {
 type Trim implements CommonOption {
   id: String!
   description: String,
-  msrp: String,
+  msrp: Int,
   selected: Boolean,
   conflict: Boolean,
   marketingCopy: String
@@ -51,7 +51,7 @@ type Trim implements CommonOption {
 type Option implements CommonOption {
   id: String!
   description: String,
-  msrp: String,
+  msrp: Int,
   selected: Boolean,
   conflict: Boolean,
   includedInPackage: Boolean,
@@ -75,7 +75,7 @@ type PackageOption {
 type Package implements CommonOption {
   id: String!
   description: String,
-  msrp: String,
+  msrp: Int,
   selected: Boolean,
   conflict: Boolean,
   smallImageUrl: String,
