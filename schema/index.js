@@ -1,8 +1,11 @@
 'use strict';
 
-const { buildSchema } = require('graphql');
+const { makeExecutableSchema } = require('graphql-tools');
+const GraphQLJSON = require('graphql-type-json');
 
-const Schema = buildSchema(`
+const schemaString = `
+scalar JSON
+
 type Step {
   id: String,
   order: Int
@@ -118,6 +121,26 @@ type Config {
   packages: [PackageGroup]
 }
 
+type Feature {
+  id: String!,
+  description: String!,
+  hasDetails: Boolean,
+  disclaimer: String,
+  imageUrl: String,
+  longDescription: String,
+  shortDescription: String,
+  values: JSON
+}
+
+type FeatureGroup {
+  name: String!,
+  features: [Feature]
+}
+
+type Features {
+  groups: [FeatureGroup]
+}
+
 type Query {
   model(brand: String!, year: Int!, carline: String!, model: String!): Model,
   config(
@@ -132,7 +155,8 @@ type Query {
     engine: String,
     axleRatio: String,
     transmission: String
-  ): Config
+  ): Config,
+  features(brand: String!, year: Int!, carline: String!, model: String!): [FeatureGroup]
 }
 
 input OptionSelection {
@@ -155,6 +179,11 @@ schema {
   query: Query,
   mutation: Mutation
 }
-`);
+`;
+
+const resolveFunctions = {
+  JSON: GraphQLJSON
+};
+const Schema = makeExecutableSchema({ typeDefs: schemaString, resolvers: resolveFunctions });
 
 module.exports = Schema;
