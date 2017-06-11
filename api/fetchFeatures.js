@@ -1,13 +1,12 @@
 'use strict';
 
 const { get } = require('axios');
-const _  = require('lodash');
 
-function normalizeFeatures(data, filterStyleIds, filterGroups) {
+function normalizeFeatures(data, filterStyleIds = [], filterGroups = []) {
   const { groups } = data;
   const styles = Object.keys(data.styleIds)
     .map(id => ({ id, groups: data.styleIds[id] }))
-    .filter(({ id }) => !filterStyleIds || filterStyleIds.includes(id));
+    .filter(({ id }) => filterStyleIds.length === 0 || filterStyleIds.includes(id));
 
   return Object.keys(groups)
     .filter(name => !filterGroups || filterGroups.includes(name))

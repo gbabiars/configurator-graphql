@@ -137,8 +137,15 @@ type FeatureGroup {
   features: [Feature]
 }
 
-type Features {
-  groups: [FeatureGroup]
+type Spec {
+  id: String!,
+  description: String,
+  values: JSON
+}
+
+type SpecGroup {
+  name: String!,
+  specs: [Spec]
 }
 
 type Query {
@@ -156,7 +163,22 @@ type Query {
     axleRatio: String,
     transmission: String
   ): Config,
-  features(brand: String!, year: Int!, carline: String!, model: String!, styleIds: [String], groups: [String]): [FeatureGroup]
+  features(
+    brand: String!, 
+    year: Int!, 
+    carline: String!, 
+    model: String!, 
+    styleIds: [String], 
+    groups: [String]
+  ): [FeatureGroup],
+  specs(
+    brand: String!, 
+    year: Int!, 
+    carline: String!, 
+    model: String!, 
+    configs: [String]
+    groups: [String]
+  ): [SpecGroup]  
 }
 
 input OptionSelection {
