@@ -156,7 +156,7 @@ type Query {
     axleRatio: String,
     transmission: String
   ): Config,
-  features(brand: String!, year: Int!, carline: String!, model: String!): [FeatureGroup]
+  features(brand: String!, year: Int!, carline: String!, model: String!, styleIds: [String], groups: [String]): [FeatureGroup]
 }
 
 input OptionSelection {

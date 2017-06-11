@@ -3,17 +3,19 @@
 const { get } = require('axios');
 const _  = require('lodash');
 
-function normalizeFeatures(data) {
+function normalizeFeatures(data, filterStyleIds, filterGroups) {
   const { groups } = data;
-  const styles = Object.keys(data.styleIds).map(id => ({ id, groups: data.styleIds[id] }));
+  const styles = Object.keys(data.styleIds)
+    .map(id => ({ id, groups: data.styleIds[id] }))
+    .filter(({ id }) => !filterStyleIds || filterStyleIds.includes(id));
 
   return Object.keys(groups)
+    .filter(name => !filterGroups || filterGroups.includes(name))
     .map(name => {
       const featureGroup = groups[name];
 
-      return {
-        name,
-        features: Object.keys(featureGroup).map(id => {
+      const features = Object.keys(featureGroup)
+        .map(id => {
           const feature = featureGroup[id];
           const {
             description,
@@ -39,14 +41,18 @@ function normalizeFeatures(data) {
             shortDescription,
             values
           };
-        })
-      }
+        });
+
+      return {
+        name,
+        features
+      };
     });
 }
 
-function fetchFeatures({ brand, year, carline, model }) {
+function fetchFeatures({ brand, year, carline, model, styleIds, groups }) {
   return get(`http://www.${brand}.com/byo-vc/services/features-specs/comparison/en/US/${brand}/${carline}/${year}/${model}?region=us`)
-    .then(res => normalizeFeatures(res.data));
+    .then(res => normalizeFeatures(res.data, styleIds, groups));
 }
 
 module.exports = fetchFeatures;
